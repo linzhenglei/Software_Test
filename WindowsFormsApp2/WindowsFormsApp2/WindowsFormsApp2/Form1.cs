@@ -12,12 +12,13 @@ namespace WindowsFormsApp2
 {
     public partial class Form1 : Form
     {
+        public static int num=0;
         private int errorTime = 3;
         public Form1()
         {
             InitializeComponent();
-            Form3 form3 = new Form3();
-            form3.ShowDialog();
+            //Form3 form3 = new Form3();
+            //form3.ShowDialog();
             // MessageBox.Show("欢迎使用！");             //登录成功
             this.Hide();
             radioButton1.Checked = true;
@@ -36,19 +37,21 @@ namespace WindowsFormsApp2
                 {
                     SqlConnection con = new SqlConnection(str);//实例化链接 
                     con.Open();//开启连接
-                    string s1 = "select name,password from Suser where name='" + username + "' and password='" + pw + "'";   //编写SQL命令
+                    string s1 = "select * from Suser where name='" + username + "' and password='" + pw + "'";   //编写SQL命令
                     SqlCommand cmd = new SqlCommand(s1, con);
                     SqlDataAdapter ada = new SqlDataAdapter(cmd);
                     ada.SelectCommand = cmd;
                     DataSet ds = new DataSet();
-                    ada.Fill(ds);//查询结果填充数据集
-                    int n = ada.Fill(ds, "user");//将结果放入数据适配器，返回元素个数
+                    int n =ada.Fill(ds);//查询结果填充数据集
+                     //ada.Fill(ds, "user");//将结果放入数据适配器，返回元素个数
                     if (n != 0)
                     {
+                        num =int.Parse(ds.Tables[0].Rows[0]["num"].ToString());
+                        this.Hide();
                         Form3 form3 = new Form3();
                         form3.ShowDialog();
                        // MessageBox.Show("欢迎使用！");             //登录成功
-                        this.Hide();
+                       
 
                     }
                     else
