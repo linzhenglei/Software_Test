@@ -16,7 +16,7 @@ namespace WindowsFormsApp2
         int[] num = new int[5];// { 2,1,3,4,5};
         char[] answer = new char[5];
         char[] answerj = new char[5];
-        string[] answerf = new string[5] { "", "", "", "", "" };
+        string[] answerf = new string[5] { "","","","",""};
         int page = 0;
         int flag = 0;
         int score = 0;
@@ -32,30 +32,29 @@ namespace WindowsFormsApp2
         public Form3()
         {
             InitializeComponent();
-            this.ControlBox = false;
-            randint();
-            string str = "Server=(local)\\mysql;DataBase=TestData; Integrated Security=True";
+            randint();           
+            string str = "Server=127.0.0.1;User ID=sa;Password=123456;Database=TestData;";            
             try
-            {
-                SqlConnection con = new SqlConnection(str);//实例化链接 
-                con.Open();//开启连接
-                string s1 = "select * from ChoiceQuestion ";   //编写SQL命令
-                SqlCommand cmd = new SqlCommand(s1, con);
-                SqlDataAdapter ada = new SqlDataAdapter(cmd);
-                ada.SelectCommand = cmd;
-
-                ada.Fill(ds);//查询结果填充数据集
-                con.Close();
-                ds1.Tables.Add(dt1);
-                dt1 = ds.Tables[0].Clone();
-
-
-
+           {
+                    SqlConnection con = new SqlConnection(str);//实例化链接 
+                    con.Open();//开启连接
+                    string s1 = "select * from ChoiceQuestion ";   //编写SQL命令
+                    SqlCommand cmd = new SqlCommand(s1, con);
+                    SqlDataAdapter ada = new SqlDataAdapter(cmd);
+                    ada.SelectCommand = cmd;
+                    
+                    ada.Fill(ds);//查询结果填充数据集
+                    con.Close();
+                    ds1.Tables.Add(dt1);
+                    dt1 = ds.Tables[0].Clone();
+               
+                
+                              
             }
-            catch (Exception err)
-            {
-                MessageBox.Show(err.Message);
-            }
+                catch (Exception err)
+                {
+                    MessageBox.Show(err.Message);
+                }
             try
             {
                 SqlConnection con = new SqlConnection(str);//实例化链接 
@@ -64,7 +63,7 @@ namespace WindowsFormsApp2
                 SqlCommand cmd = new SqlCommand(s1, con);
                 SqlDataAdapter ada = new SqlDataAdapter(cmd);
                 ada.SelectCommand = cmd;
-
+                
                 ada.Fill(dsj);//查询结果填充数据集
                 con.Close();
                 ds1.Tables.Add(dt2);
@@ -85,14 +84,14 @@ namespace WindowsFormsApp2
                 SqlCommand cmd = new SqlCommand(s1, con);
                 SqlDataAdapter ada = new SqlDataAdapter(cmd);
                 ada.SelectCommand = cmd;
-
+                
                 ada.Fill(dsf);//查询结果填充数据集
                 con.Close();
                 ds1.Tables.Add(dt3);
                 dt3 = dsf.Tables[0].Clone();
 
                 //copyds();
-                // printfq();
+               // printfq();
 
             }
             catch (Exception err)
@@ -132,7 +131,7 @@ namespace WindowsFormsApp2
 
         public void copyds()//取出题目
         {
-
+            
             for (int i = 0; i < 5; i++)
             {
                 foreach (DataRow dr in ds.Tables[0].Rows)
@@ -163,7 +162,7 @@ namespace WindowsFormsApp2
         }
         public void printfq()
         {
-            if (page >= 0 && page < 5)
+            if(page>=0&&page<5)
             {
                 radioButton1.Show();
                 radioButton2.Show();
@@ -176,7 +175,7 @@ namespace WindowsFormsApp2
                 radioButton2.Text = "B." + dt1.Rows[page][2].ToString();
                 radioButton3.Text = "C." + dt1.Rows[page][3].ToString();
                 radioButton4.Text = "D." + dt1.Rows[page][4].ToString();
-
+                
                 if (answer[page] == 'A')
                 {
                     radioButton1.Checked = true;
@@ -209,22 +208,22 @@ namespace WindowsFormsApp2
                 radioButton4.Hide();
                 textBox1.Hide();
 
-                label1.Text = (page + 1).ToString() + "." + dt2.Rows[page - 5][0].ToString();     //打印题目与选项
+                label1.Text = (page + 1).ToString() + "." + dt2.Rows[page-5][0].ToString();     //打印题目与选项
                 radioButton1.Text = "T";
                 radioButton2.Text = "F";
-
-                if (answerj[page - 5] == 'T')
+                
+                if (answerj[page-5] == 'T')
                 {
                     radioButton1.Checked = true;
                 }
-                else if (answerj[page - 5] == 'F')
+                else if (answerj[page-5] == 'F')
                 {
                     radioButton2.Checked = true;
                 }
                 else
                 {
                     radioButton1.Checked = false;
-                    radioButton2.Checked = false;
+                    radioButton2.Checked = false;                  
                 }
 
             }
@@ -243,12 +242,12 @@ namespace WindowsFormsApp2
 
         private void button8_Click(object sender, EventArgs e)
         {
-            if (page < 14)
+            if(page<14)
             {
                 page = page + 1;
                 printfq();
             }
-
+            
         }
 
         private void button7_Click(object sender, EventArgs e)
@@ -268,7 +267,6 @@ namespace WindowsFormsApp2
             this.label3.Text = (min + ":" + sec);
             if (min == 0 && sec == 0)
             {
-                timer1.Stop();
                 MessageBox.Show("时间到");
                 sendscore();
             }
@@ -298,11 +296,11 @@ namespace WindowsFormsApp2
             {
                 if (radioButton1.Checked == true)
                 {
-                    answerj[page - 5] = 'T';
+                    answerj[page-5] = 'T';
                 }
                 else if (radioButton2.Checked == true)
                 {
-                    answerj[page - 5] = 'F';
+                    answerj[page-5] = 'F';
                 }
 
             }
@@ -310,7 +308,7 @@ namespace WindowsFormsApp2
             {
                 answerf[page - 10] = textBox1.Text.Trim().ToString();
             }
-
+           
         }
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
@@ -344,18 +342,18 @@ namespace WindowsFormsApp2
             {
                 if (answer[i].ToString() == dt1.Rows[i][5].ToString())
                     score += 10;
-                if (answerj[i].ToString() == dt2.Rows[i][1].ToString())
+                if (answerj[i].ToString() ==dt2.Rows[i][1].ToString())
                     score += 5;
-                if (answerf[i].ToString() == dt3.Rows[i][1].ToString().Trim())
+                if (answerf[i].ToString()== dt3.Rows[i][1].ToString().Trim())
                     score += 5;
             }
             //label3.Text = score.ToString();
             try
             {
-                string str = "Server=(local)\\mysql;DataBase=TestData; Integrated Security=True";
+                string str = "Server=127.0.0.1;User ID=sa;Password=123456;Database=TestData;";
                 SqlConnection con1 = new SqlConnection(str);//实例化链接 
                 con1.Open();//开启连接
-                string s1 = "update Suser set  score='" + score + "' where num=" + Form1.num;    //编写SQL命令
+                string s1 = "update Suser set  score='" + score  + "' where num=" + Form1.num;    //编写SQL命令
                 SqlCommand cmd = new SqlCommand(s1, con1);
                 int count = -1;
                 count = cmd.ExecuteNonQuery();
@@ -363,19 +361,20 @@ namespace WindowsFormsApp2
                 if (count > 0)
                 {
                     MessageBox.Show("提交完成");
-                    
+
                 }
                 else
                 {
                     MessageBox.Show("提交失败");
                 }
             }
-            catch (Exception e)
+            catch(Exception e)
             {
                 MessageBox.Show(e.ToString());
 
             }
-            Application.Exit();
+            Form1 form1 = new Form1();
+            form1.Close();
         }
         private void button1_Click(object sender, EventArgs e)                     //提交成绩
         {
@@ -460,10 +459,5 @@ namespace WindowsFormsApp2
             page = 14;
             printfq();
         }
-        private void Form3_Load(object sender, EventArgs e)
-        {
-            
-        }
-
     }
 }
